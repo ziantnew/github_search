@@ -57,11 +57,9 @@ class SearchItem extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 8),
                               child: GestureDetector(
                                 onTap: () async {
-                                  if (await canLaunch(item.html_url)) {
-                                    await launch(item.html_url);
-                                  } else {
-                                    // Handle error, e.g., show an error message to the user
-                                  }
+                                  launchUrl(
+                                    Uri.parse(item.html_url),
+                                  );
                                 },
                                 child: Text(
                                   item.html_url,

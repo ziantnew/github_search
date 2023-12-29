@@ -3,9 +3,8 @@ import 'package:search_api/model/search_request.dart';
 import 'package:search_api/repository/search_repository.dart';
 import '../model/search_result.dart';
 
-
 final searchProvider =
-StateNotifierProvider<SearchNotifier, SearchResult?>((ref) {
+    StateNotifierProvider<SearchNotifier, SearchResult?>((ref) {
   final searchRepository = ref.watch(searchRepositoryProvider);
 
   return SearchNotifier(
@@ -23,8 +22,7 @@ class SearchNotifier extends StateNotifier<SearchResult?> {
   Future<SearchResult?> getRepositoryList(SearchRequest request) async {
     try {
       final results = await searchRepository.getRepositoryList(
-        query: request.query,
-      );
+          query: request.query, perPage: request.per_page, page: request.page);
       return results;
     } catch (error) {
       print("Error fetching results: $error");

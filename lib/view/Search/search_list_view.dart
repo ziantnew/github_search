@@ -30,6 +30,8 @@ class _SearchListViewState extends ConsumerState<SearchListView>
     items: [],
   );
 
+  int page = 1;
+
   @override
   void initState() {
     super.initState();
@@ -58,7 +60,7 @@ class _SearchListViewState extends ConsumerState<SearchListView>
   Future<void> getSearchList({int workLocationId = 0}) async {
     ref
         .read(searchProvider.notifier)
-        .getRepositoryList(SearchRequest(query: 'dart'))
+        .getRepositoryList(SearchRequest(query: 'dart',per_page: 100, page: page))
         .then((value) => setState(() {
               if (value != null) {
                 searchResult = value;

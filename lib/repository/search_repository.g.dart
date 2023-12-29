@@ -19,9 +19,17 @@ class _SearchRepository implements SearchRepository {
   String? baseUrl;
 
   @override
-  Future<SearchResult> getRepositoryList({query}) async {
+  Future<SearchResult> getRepositoryList({
+    query,
+    perPage,
+    page,
+  }) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{r'q': query};
+    final queryParameters = <String, dynamic>{
+      r'q': query,
+      r'per_page': perPage,
+      r'page': page,
+    };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};
     final Map<String, dynamic>? _data = null;

@@ -17,13 +17,11 @@ class SearchResult {
 @JsonSerializable()
 class Item {
   final String full_name;
-  final String description;
   final String html_url;
   final Owner owner;
 
   Item(
       {required this.full_name,
-      required this.description,
       required this.html_url,
       required this.owner});
 

@@ -18,6 +18,8 @@ abstract class SearchRepository {
   @GET('/search/repositories')
   Future<SearchResult> getRepositoryList({
     @Query("q") String? query,
+    @Query("per_page") int? perPage,
+    @Query("page") int? page,
   });
 
 }

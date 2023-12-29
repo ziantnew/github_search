@@ -19,14 +19,12 @@ Map<String, dynamic> _$SearchResultToJson(SearchResult instance) =>
 
 Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       full_name: json['full_name'] as String,
-      description: json['description'] as String,
       html_url: json['html_url'] as String,
       owner: Owner.fromJson(json['owner'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'full_name': instance.full_name,
-      'description': instance.description,
       'html_url': instance.html_url,
       'owner': instance.owner,
     };
