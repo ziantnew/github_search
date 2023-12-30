@@ -19,11 +19,13 @@ class Item {
   final String full_name;
   final String html_url;
   final Owner owner;
+  String? avatarFilePath;
 
   Item(
       {required this.full_name,
       required this.html_url,
-      required this.owner});
+      required this.owner,
+      this.avatarFilePath});
 
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 

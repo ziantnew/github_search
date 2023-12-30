@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:search_api/view/Search/custom_search_tabbar.dart';
+import 'package:search_api/view/Search/search_history_view.dart';
 import 'package:search_api/view/Search/search_list_view.dart';
 import 'package:search_api/view/Search/tab_content.dart';
 
@@ -27,7 +28,7 @@ class SearchMain extends StatelessWidget {
         body: TabBarView(
           children: [
             TabContent(child: const SearchListView()),
-            TabContent(child: const SearchListView()),
+            TabContent(child: const SearchHistoryView()),
           ],
         ),
       ),

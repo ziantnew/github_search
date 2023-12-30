@@ -21,12 +21,14 @@ Item _$ItemFromJson(Map<String, dynamic> json) => Item(
       full_name: json['full_name'] as String,
       html_url: json['html_url'] as String,
       owner: Owner.fromJson(json['owner'] as Map<String, dynamic>),
+      avatarFilePath: json['avatarFilePath'] as String?,
     );
 
 Map<String, dynamic> _$ItemToJson(Item instance) => <String, dynamic>{
       'full_name': instance.full_name,
       'html_url': instance.html_url,
       'owner': instance.owner,
+      'avatarFilePath': instance.avatarFilePath,
     };
 
 Owner _$OwnerFromJson(Map<String, dynamic> json) => Owner(

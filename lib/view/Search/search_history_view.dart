@@ -1,22 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:search_api/model/search_request.dart';
 import 'package:search_api/model/search_result.dart';
-import 'package:search_api/provider/search_provider.dart';
-import 'package:search_api/util/custom_toast.dart';
 import 'package:search_api/util/loading_dailog.dart';
+import 'package:search_api/util/local_storage.dart';
 import 'package:search_api/util/util.dart';
 import 'package:search_api/view/Search/search_item.dart';
 
-class SearchListView extends ConsumerStatefulWidget {
-  const SearchListView({super.key});
+class SearchHistoryView extends ConsumerStatefulWidget {
+  const SearchHistoryView({super.key});
 
   @override
-  _SearchListViewState createState() => _SearchListViewState();
+  _SearchHistoryViewState createState() => _SearchHistoryViewState();
 }
 
-class _SearchListViewState extends ConsumerState<SearchListView>
+class _SearchHistoryViewState extends ConsumerState<SearchHistoryView>
     with WidgetsBindingObserver, AutomaticKeepAliveClientMixin {
   @override
   bool get wantKeepAlive => true;
@@ -26,9 +24,7 @@ class _SearchListViewState extends ConsumerState<SearchListView>
 
   late ScrollController _scrollController;
 
-  late SearchResult searchResult = SearchResult(
-    items: [],
-  );
+  late List<Item> historyItemList = [];
 
   int page = 1;
 
@@ -45,7 +41,7 @@ class _SearchListViewState extends ConsumerState<SearchListView>
   }
 
   void initializeState() async {
-    await getSearchList();
+    await getSearchHistoryList();
   }
 
   @override
@@ -57,21 +53,14 @@ class _SearchListViewState extends ConsumerState<SearchListView>
     super.dispose();
   }
 
-  Future<void> getSearchList({int workLocationId = 0}) async {
-    ref
-        .read(searchProvider.notifier)
-        .getRepositoryList(
-            SearchRequest(query: 'dart', per_page: 100, page: page))
-        .then((value) => setState(() {
-              if (value != null) {
-                searchResult = value;
-              }
-            }))
-        .catchError((e) {
-      CustomToast.showToast(
-        message: e.toString(),
-      );
-    });
+  Future<void> getSearchHistoryList() async {
+    var historyList =
+        await LocalStorage.getRepositoryList(LocalStorage.repository);
+    if (Utils.isNotNullAndNotEmpty(historyList)) {
+      setState(() {
+        historyItemList = historyList!;
+      });
+    }
   }
 
   @override
@@ -83,11 +72,11 @@ class _SearchListViewState extends ConsumerState<SearchListView>
         child: RefreshIndicator(
             color: const Color(0xffffdc33),
             onRefresh: () async {
-              await getSearchList();
+              await getSearchHistoryList();
             },
             child: Scaffold(
               backgroundColor: Colors.white,
-              body: Utils.isNotNullAndNotEmpty(searchResult.items)
+              body: Utils.isNotNullAndNotEmpty(historyItemList)
                   ? Stack(children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
@@ -98,10 +87,10 @@ class _SearchListViewState extends ConsumerState<SearchListView>
                               delegate: SliverChildBuilderDelegate(
                                 (BuildContext context, int index) {
                                   return SearchItem(
-                                    item: searchResult.items[index],
+                                    item: historyItemList[index],
                                   );
                                 },
-                                childCount: searchResult.items.length,
+                                childCount: historyItemList.length,
                               ),
                             ),
                           ],
