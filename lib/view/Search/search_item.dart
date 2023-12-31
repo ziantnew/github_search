@@ -8,7 +8,6 @@ import 'package:search_api/util/local_storage.dart';
 import 'package:search_api/util/util.dart';
 import 'package:search_api/view/Search/image_file_path.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'dart:io';
 
 class SearchItem extends ConsumerWidget {
   final Item item;
@@ -30,7 +29,7 @@ class SearchItem extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.only(left: 18),
                   child: historyCheck == true
-                      ? ImageFilePath(filePath: item.avatarFilePath.toString())
+                      ? ImageFilePath(filePath: item.avatarFilePath!)
                       : SizedBox(
                           width: 40,
                           height: 40, // Adjust the width and height as needed

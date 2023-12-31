@@ -2,6 +2,8 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'dart:typed_data';
+import 'package:path/path.dart' as path;
+import 'package:path_provider/path_provider.dart';
 
 //github accessToken
 const accessToken =
@@ -23,10 +25,8 @@ class Utils {
       if (response.statusCode == 200) {
         Uint8List uint8List = Uint8List.fromList(response.data!);
 
-        var file = await _saveImageToFile(url, uint8List);
-        if (file != null) {
-          return file.path;
-        }
+        var filePath = await saveImageToFile(url, uint8List);
+        return filePath;
       }
     } catch (e) {
       print('Error downloading and saving image: $e');
@@ -34,21 +34,23 @@ class Utils {
     return null;
   }
 
-  static Future<File?> _saveImageToFile(String url, Uint8List uint8List) async {
+  static Future<String?> saveImageToFile(
+      String url, Uint8List uint8List) async {
     try {
-      var fileInfo = await DefaultCacheManager().getFileFromCache(url);
-      if (fileInfo != null) {
-        File file = fileInfo.file;
+      final documentPath = await getApplicationDocumentsDirectory();
+      String fileName = url.split('/').last;
+      String filePath = '${documentPath.path}/$fileName';
 
-        if (await file.exists()) {
-          print('File already exists: ${file.path}');
-          return file;
-        }
+      File file = File(filePath);
+
+      if (await file.exists()) {
+        print('File already exists: ${file.path}');
+        return null;
       }
 
-      File file = await DefaultCacheManager().putFile(url, uint8List);
+      await file.writeAsBytes(uint8List);
       print('Image saved to file: ${file.path}');
-      return file;
+      return file.path;
     } catch (e) {
       print('Error saving image to file: $e');
       return null;
