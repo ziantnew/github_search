@@ -29,9 +29,9 @@ flutter run
   dropdown_button2: ^2.3.9 
 ```
 ## 스크린샷
-<p align="center" width="100%">
-    <img width="50%" src="https://github.com/ziantnew/github_search/assets/46710342/19354bf3-5417-4f11-bd61-544e5a3d5aa5"> 
-    <img width="50%" src="https://github.com/ziantnew/github_search/assets/46710342/ac3ec1f5-9e6f-4b15-9a42-175463506c14"> 
+<p align="left" width="100%">
+    <img width="33%" src="https://github.com/ziantnew/github_search/assets/46710342/19354bf3-5417-4f11-bd61-544e5a3d5aa5"> 
+    <img width="33%" src="https://github.com/ziantnew/github_search/assets/46710342/ac3ec1f5-9e6f-4b15-9a42-175463506c14"> 
 </p>
 
 
