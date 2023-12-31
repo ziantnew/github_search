@@ -1,20 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:search_api/model/search_result.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:search_api/provider/network_provider.dart';
+import 'package:search_api/provider/search_item_list_provider.dart';
 import 'package:search_api/util/local_storage.dart';
 import 'package:search_api/util/util.dart';
 import 'package:search_api/view/Search/image_file_path.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'dart:io';
 
-class SearchItem extends StatelessWidget {
+class SearchItem extends ConsumerWidget {
   final Item item;
   bool? historyCheck;
 
-  SearchItem({Key? key, required this.item, this.historyCheck})
-      : super(key: key);
+  SearchItem({Key? key, required this.item, this.historyCheck});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    var connectivityStatus = ref.watch(connectivityStatusProviders);
     return Container(
       color: Colors.white,
       child: Column(
@@ -61,25 +65,31 @@ class SearchItem extends StatelessWidget {
                               padding: const EdgeInsets.only(top: 8),
                               child: GestureDetector(
                                 onTap: () async {
+                                  launchUrl(
+                                    Uri.parse(item.html_url),
+                                  );
+
                                   if (item.owner.avatar_url != null &&
-                                      item.owner.avatar_url.isNotEmpty) {
-                                    print("GestureDetector");
+                                      item.owner.avatar_url.isNotEmpty &&
+                                      connectivityStatus ==
+                                          ConnectivityStatus.isConnected) {
                                     String? filePath =
                                         await Utils.downloadAndSaveImage(
                                             item.owner.avatar_url);
                                     if (filePath != null) {
                                       item.avatarFilePath = filePath;
-
-                                      Item newItem = item; // create a new Item
+                                      Item newItem =
+                                          item; // create a new Item
                                       await LocalStorage
                                           .addItemToRepositoryList(
-                                              LocalStorage.repository, newItem);
+                                          LocalStorage.repository,
+                                          newItem);
+                                      ref
+                                          .read(
+                                          searchItemListProvider.notifier)
+                                          .saveSearchItemList(true);
                                     }
                                   }
-
-                                  launchUrl(
-                                    Uri.parse(item.html_url),
-                                  );
                                 },
                                 child: Text(
                                   item.html_url,
@@ -105,3 +115,4 @@ class SearchItem extends StatelessWidget {
     );
   }
 }
+

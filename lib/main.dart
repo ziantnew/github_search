@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:search_api/provider/network_provider.dart';
 import 'view/Search/search_main.dart';
 
 void main() {
@@ -35,6 +36,26 @@ class MyHomePage extends ConsumerStatefulWidget {
 class _MyHomePageState extends ConsumerState<MyHomePage> {
   @override
   Widget build(BuildContext context) {
+
+    var connectivityStatusProvider = ref.watch(connectivityStatusProviders);
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (connectivityStatusProvider != ConnectivityStatus.isConnected) {
+        ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+                 '네트워크 연결을 확인해 주세요.' ,
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20.0,
+            ),
+          ),
+          backgroundColor: Colors.red
+        ),
+      );
+      }
+    });
+
     return const Scaffold(
       body: SearchMain(),
     );

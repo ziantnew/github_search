@@ -27,6 +27,16 @@ class Item {
       required this.owner,
       this.avatarFilePath});
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Item &&
+          runtimeType == other.runtimeType &&
+          avatarFilePath == other.avatarFilePath;
+
+  @override
+  int get hashCode => avatarFilePath.hashCode;
+
   factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
 
   Map<String, dynamic> toJson() => _$ItemToJson(this);

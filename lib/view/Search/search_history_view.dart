@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:search_api/model/search_result.dart';
+import 'package:search_api/provider/search_item_list_provider.dart';
 import 'package:search_api/util/loading_dailog.dart';
 import 'package:search_api/util/local_storage.dart';
 import 'package:search_api/util/util.dart';
@@ -57,14 +58,24 @@ class _SearchHistoryViewState extends ConsumerState<SearchHistoryView>
     var historyList =
         await LocalStorage.getRepositoryList(LocalStorage.repository);
     if (Utils.isNotNullAndNotEmpty(historyList)) {
+      Set<Item> uniqueItemsSet = {};
+      List<Item> uniqueHistoryItemList = historyList!.where((item) {
+        return uniqueItemsSet.add(item);
+      }).toList();
+
       setState(() {
-        historyItemList = historyList!;
+        historyItemList = uniqueHistoryItemList;
       });
+      ref.read(searchItemListProvider.notifier).saveSearchItemList(false);
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    final saveItem = ref.watch(searchItemListProvider);
+    if (saveItem) {
+      getSearchHistoryList();
+    }
     return WillPopScope(
         onWillPop: () async {
           return true;
@@ -88,6 +99,7 @@ class _SearchHistoryViewState extends ConsumerState<SearchHistoryView>
                                 (BuildContext context, int index) {
                                   return SearchItem(
                                     item: historyItemList[index],
+                                    historyCheck: true,
                                   );
                                 },
                                 childCount: historyItemList.length,

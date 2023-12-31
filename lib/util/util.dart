@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'dart:typed_data';
@@ -14,12 +15,15 @@ class Utils {
   static Future<String?> downloadAndSaveImage(String url) async {
     try {
       Dio dio = Dio();
-      Response<List<int>> response = await dio.get<List<int>>(url,
-          options: Options(responseType: ResponseType.bytes));
+      Response<List<int>> response = await dio.get<List<int>>(
+        url,
+        options: Options(responseType: ResponseType.bytes),
+      );
 
       if (response.statusCode == 200) {
         Uint8List uint8List = Uint8List.fromList(response.data!);
-        var file = await DefaultCacheManager().putFile(url, uint8List);
+
+        var file = await _saveImageToFile(url, uint8List);
         if (file != null) {
           return file.path;
         }
@@ -28,5 +32,26 @@ class Utils {
       print('Error downloading and saving image: $e');
     }
     return null;
+  }
+
+  static Future<File?> _saveImageToFile(String url, Uint8List uint8List) async {
+    try {
+      var fileInfo = await DefaultCacheManager().getFileFromCache(url);
+      if (fileInfo != null) {
+        File file = fileInfo.file;
+
+        if (await file.exists()) {
+          print('File already exists: ${file.path}');
+          return file;
+        }
+      }
+
+      File file = await DefaultCacheManager().putFile(url, uint8List);
+      print('Image saved to file: ${file.path}');
+      return file;
+    } catch (e) {
+      print('Error saving image to file: $e');
+      return null;
+    }
   }
 }
