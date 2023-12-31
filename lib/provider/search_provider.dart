@@ -22,7 +22,7 @@ class SearchNotifier extends StateNotifier<SearchResult?> {
   Future<SearchResult?> getRepositoryList(SearchRequest request) async {
     try {
       final results = await searchRepository.getRepositoryList(
-          query: request.query, perPage: request.per_page, page: request.page);
+          query: request.query, perPage: request.per_page, page: request.page,sort: request.sort);
       return results;
     } catch (error) {
       print("Error fetching results: $error");

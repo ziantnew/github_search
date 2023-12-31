@@ -20,6 +20,7 @@ abstract class SearchRepository {
     @Query("q") String? query,
     @Query("per_page") int? perPage,
     @Query("page") int? page,
+    @Query("sort") String? sort,
   });
 
 }

@@ -23,12 +23,14 @@ class _SearchRepository implements SearchRepository {
     query,
     perPage,
     page,
+    sort,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
       r'q': query,
       r'per_page': perPage,
       r'page': page,
+      r'sort': sort,
     };
     queryParameters.removeWhere((k, v) => v == null);
     final _headers = <String, dynamic>{};

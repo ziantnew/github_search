@@ -23,7 +23,7 @@ class _FilterSelectBoxState extends ConsumerState<FilterSelectBox> {
 
   @override
   Widget build(BuildContext context) {
-    final List<String> items = ['Best Match(기본 선택)', 'Most Stars', 'Recently Updated'];
+    final List<String> items = ['best match', 'stars', 'updated'];
 
     return Container(
       margin: const EdgeInsets.fromLTRB(18, 30, 18, 5),

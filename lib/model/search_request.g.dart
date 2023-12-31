@@ -11,6 +11,7 @@ SearchRequest _$SearchRequestFromJson(Map<String, dynamic> json) =>
       query: json['query'] as String,
       per_page: json['per_page'] as int?,
       page: json['page'] as int?,
+      sort: json['sort'] as String,
     );
 
 Map<String, dynamic> _$SearchRequestToJson(SearchRequest instance) =>
@@ -18,4 +19,5 @@ Map<String, dynamic> _$SearchRequestToJson(SearchRequest instance) =>
       'query': instance.query,
       'per_page': instance.per_page,
       'page': instance.page,
+      'sort': instance.sort,
     };
