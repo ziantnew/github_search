@@ -39,7 +39,6 @@ dependencies:
   dio: ^5.0.0
   json_annotation: ^4.8.0
   retrofit: ^4.0.1
-  fluttertoast: ^8.2.1
   shared_preferences: ^2.1.1
   cached_network_image: ^3.2.3
   googleapis: ^12.0.0

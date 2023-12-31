@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -5,7 +6,6 @@ import 'package:search_api/model/search_request.dart';
 import 'package:search_api/model/search_result.dart';
 import 'package:search_api/provider/filter_provider.dart';
 import 'package:search_api/provider/search_provider.dart';
-import 'package:search_api/util/custom_toast.dart';
 import 'package:search_api/util/loading_dailog.dart';
 import 'package:search_api/util/util.dart';
 import 'package:search_api/view/Search/filter_select_box.dart';
@@ -60,13 +60,14 @@ class _SearchListViewState extends ConsumerState<SearchListView>
   }
 
   Future<void> getSearchList({int workLocationId = 0}) async {
-    final searchFilterState = ref.read(searchFilterStateProvider.notifier).state;
+    final searchFilterState =
+        ref.read(searchFilterStateProvider.notifier).state;
     final sortValue = searchFilterState["sort"];
     loadingDialog.show();
     ref
         .read(searchProvider.notifier)
-        .getRepositoryList(
-            SearchRequest(query: 'dart', per_page: 100, page: page, sort:sortValue!))
+        .getRepositoryList(SearchRequest(
+            query: 'dart', per_page: 100, page: page, sort: sortValue!))
         .then((value) => setState(() {
               loadingDialog.hide();
               if (value != null) {
@@ -75,9 +76,9 @@ class _SearchListViewState extends ConsumerState<SearchListView>
             }))
         .catchError((e) {
       loadingDialog.hide();
-      CustomToast.showToast(
-        message: e.toString(),
-      );
+      if (kDebugMode) {
+        print(e.toString());
+      }
     });
   }
 
@@ -92,7 +93,8 @@ class _SearchListViewState extends ConsumerState<SearchListView>
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           FilterSelectBox(onChanged: (value) async {
-            final searchFilterState = ref.read(searchFilterStateProvider.notifier);
+            final searchFilterState =
+                ref.read(searchFilterStateProvider.notifier);
             searchFilterState.setValue("sort", value);
             await getSearchList();
           }),
