@@ -17,16 +17,16 @@ flutter run
 
 ##  사용 주요 라이브러리 (dependencies)
 ```
-  flutter_riverpod: ^2.2.0 
-  dio: ^5.0.0
-  json_annotation: ^4.8.0
-  retrofit: ^4.0.1
-  shared_preferences: ^2.1.1
-  cached_network_image: ^3.2.3
-  url_launcher: ^6.1.11
-  connectivity_plus: ^3.0.2
-  path_provider: ^2.0.15
-  dropdown_button2: ^2.3.9 
+flutter_riverpod: ^2.2.0 
+dio: ^5.0.0
+json_annotation: ^4.8.0
+retrofit: ^4.0.1
+shared_preferences: ^2.1.1
+cached_network_image: ^3.2.3
+url_launcher: ^6.1.11
+connectivity_plus: ^3.0.2
+path_provider: ^2.0.15
+dropdown_button2: ^2.3.9 
 ```
 ## 스크린샷
 <p align="left" width="100%">
