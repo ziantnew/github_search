@@ -21,7 +21,6 @@ class ImageFilePath extends StatelessWidget {
       future: _checkFileExistence(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
-          print("File exists: ${snapshot.data!.exists}");
           if (snapshot.data!.exists) {
             return SizedBox(
               width: 40,
@@ -51,7 +50,6 @@ class ImageFilePath extends StatelessWidget {
 
   Future<ExistenceCheckResult> _checkFileExistence() async {
     File file = File(filePath);
-    print('File path: $filePath');
 
     if (Platform.isIOS) {
       final documentPath = (await getApplicationDocumentsDirectory()).path;

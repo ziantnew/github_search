@@ -4,10 +4,10 @@ part 'search_request.g.dart';
 
 @JsonSerializable()
 class SearchRequest {
-  String query;
+  final String query;
   int? per_page;
   int? page;
-  String sort;
+  final String sort;
 
   SearchRequest({required this.query, this.per_page, this.page, required this.sort});
 
