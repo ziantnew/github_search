@@ -46,6 +46,7 @@ dependencies:
   url_launcher: ^6.1.11
   connectivity_plus: ^3.0.2
   path_provider: ^2.0.15
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
